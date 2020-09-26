@@ -1,14 +1,33 @@
 $(function(){
   $("#addField").click(function(){
-    let lastNubmer = $("tr").last().children().first().text();
-    let nextNumber = parseInt(lastNubmer, 10) + 1
+	//新的欄位會在最下方出現
+    /*let lastNumber = $("tr").last().children().first().text();
+    let nextNumber = parseInt(lastNumber, 10) + 1
     let html = `<tr> \
                   <td>${nextNumber}</td> \
                   <td><input name="key-${nextNumber}"></td> \
                   <td><input name="value-${nextNumber}"></td> \
                   <td><button type="button" class="remove btn btn-primary">移除欄位</button></td>
                 </tr>`;
-    $("tbody").append(html);
+    $("tbody").append(html);*/
+	
+	
+	//新的欄位會在最上方出現
+	let lastNumber = parseInt($("tr").last().children().first().text(), 10);
+	let html = `<tr> \
+                  <td>0</td> \
+                  <td><input name="key-0"></td> \
+                  <td><input name="value-0"></td> \
+                  <td><button type="button" class="remove btn btn-primary">移除欄位</button></td>
+                </tr>`
+	for(let i = lastNumber; i >= 0; i--){
+		let nextNumber = i + 1;
+		$(`input[name=key-${i}]`).parent().parent().children().first().text(nextNumber);
+		$(`input[name=key-${i}]`).attr("name", `key-${nextNumber}`);
+		$(`input[name=value-${i}]`).attr("name", `value-${nextNumber}`);
+	}
+	$("tbody").prepend(html);
+	
     removeButtonClickEvent();
   });
   $("#replace").click(function(){
