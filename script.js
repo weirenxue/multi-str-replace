@@ -65,14 +65,16 @@ $(function(){
       ExportedObject[i][`key-${i}`] = key;
       ExportedObject[i][`value-${i}`] = value;
     }
-    console.log(ExportedObject)
 
-    var text = new Blob([JSON.stringify(ExportedObject)], {type : 'application/json'});
+    var Now = new Date();
+    var NowString;
+    NowString = Now.getFullYear() + ('0' + (Now.getMonth()+1)).slice(-2) + ('0' + Now.getDate()).slice(-2) + "_" + ('0' + (Now.getHours())).slice(-2) + ('0' + (Now.getMinutes())).slice(-2) + ('0' + (Now.getSeconds())).slice(-2);
+    let filename = $('#tableTitle').text() + "_" + NowString;
+    let text = new Blob([JSON.stringify(ExportedObject)], {type : 'application/json'});
     const a = document.createElement("a")
     const url = window.URL.createObjectURL(text)
-    console.log(url)
     a.href = url;
-    a.download = "test.json";
+    a.download = `${filename}.json`;
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
