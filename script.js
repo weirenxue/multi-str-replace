@@ -54,10 +54,12 @@ $(function(){
     $("#content").val('');
   });
   $("#export").click(function(){
+    //得到最後的編號
     let lastNubmer = $("tr").last().children().first().text();
     let key, value;
     let ExportedObject = [];
     lastNubmer = parseInt(lastNubmer, 10)
+    //做成陣列包物件
     for(var i = 0; i <= lastNubmer; i++){
       key = $(`input[name=key-${i}]`).val();
       value = $(`input[name=value-${i}]`).val();
@@ -69,8 +71,11 @@ $(function(){
     var Now = new Date();
     var NowString;
     NowString = Now.getFullYear() + ('0' + (Now.getMonth()+1)).slice(-2) + ('0' + Now.getDate()).slice(-2) + "_" + ('0' + (Now.getHours())).slice(-2) + ('0' + (Now.getMinutes())).slice(-2) + ('0' + (Now.getSeconds())).slice(-2);
+    //以表格標題為檔名一部份
     let filename = $('#tableTitle').text() + "_" + NowString;
+    //物件轉為json字串
     let text = new Blob([JSON.stringify(ExportedObject)], {type : 'application/json'});
+    //下載
     const a = document.createElement("a")
     const url = window.URL.createObjectURL(text)
     a.href = url;
@@ -83,8 +88,8 @@ $(function(){
   $("#import").change(function(){
     if(this.files.length == 1){
       let re = new RegExp(".*(?=_[0-9]*_[0-9]+\.json)");
-      let filename = this.files[0].name;
-      let tableTitle = (filename.match(re))[0];
+      let filename = this.files[0].name; //檔名為 "表格標題"_"存檔日期"_"存檔時間".json
+      let tableTitle = (filename.match(re))[0]; //爬出 表格標題
       let reader = new FileReader();
       
       $('#tableTitle').text(tableTitle);
@@ -93,7 +98,7 @@ $(function(){
         let key_value = JSON.parse(this.result);
         let len = key_value.length;
         $("tbody tr").remove();
-        console.log(key_value.length);
+        //依據匯入的檔案做出表格
         for(let i = 0; i < len; i++){
           let key = key_value[i][`key-${i}`];
           let value = key_value[i][`value-${i}`];
@@ -106,8 +111,10 @@ $(function(){
                       </tr>`;
           $("tbody").append(html);
         }
+        //註冊所有"移除欄位"按鈕事件
         removeButtonClickEvent()
       };
+      //處理完的文件要刪除，否則再import一次同樣的檔案不會觸發input[type=file]的change事件
       document.getElementById('import').value = "";
     };
   });
