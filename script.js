@@ -80,4 +80,19 @@ $(function(){
     window.URL.revokeObjectURL(url);
     a.remove();
   });
+  $("#import").change(function(){
+    if(this.files.length == 1){
+      let re = new RegExp(".*(?=_[0-9]*_[0-9]+\.json)");
+      let filename = this.files[0].name;
+      let tableTitle = (filename.match(re))[0];
+      let reader = new FileReader();
+      
+      $('#tableTitle').text(tableTitle);
+      reader.readAsText(this.files[0],'UTF-8');
+      reader.onload = function () {
+          var data = this.result;
+          console.log(JSON.parse(data));
+      };
+    };
+  });
 });
