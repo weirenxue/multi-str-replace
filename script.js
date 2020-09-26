@@ -106,7 +106,9 @@ $(function(){
                       </tr>`;
           $("tbody").append(html);
         }
+        removeButtonClickEvent()
       };
+      document.getElementById('import').value = "";
     };
   });
 });
