@@ -90,8 +90,22 @@ $(function(){
       $('#tableTitle').text(tableTitle);
       reader.readAsText(this.files[0],'UTF-8');
       reader.onload = function () {
-          var data = this.result;
-          console.log(JSON.parse(data));
+        let key_value = JSON.parse(this.result);
+        let len = key_value.length;
+        $("tbody tr").remove();
+        console.log(key_value.length);
+        for(let i = 0; i < len; i++){
+          let key = key_value[i][`key-${i}`];
+          let value = key_value[i][`value-${i}`];
+          console.log(key, value)
+          let html = `<tr> \
+                        <td>${i}</td> \
+                        <td><input name="key-${i}" value="${key}"></td> \
+                        <td><input name="value-${i}" value="${value}"></td> \
+                        <td><button type="button" class="remove btn btn-primary">移除欄位</button></td>
+                      </tr>`;
+          $("tbody").append(html);
+        }
       };
     };
   });
