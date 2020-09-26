@@ -53,4 +53,29 @@ $(function(){
   $("#clear").click(function(){
     $("#content").val('');
   });
+  $("#export").click(function(){
+    let lastNubmer = $("tr").last().children().first().text();
+    let key, value;
+    let ExportedObject = [];
+    lastNubmer = parseInt(lastNubmer, 10)
+    for(var i = 0; i <= lastNubmer; i++){
+      key = $(`input[name=key-${i}]`).val();
+      value = $(`input[name=value-${i}]`).val();
+      ExportedObject[i] = {};
+      ExportedObject[i][`key-${i}`] = key;
+      ExportedObject[i][`value-${i}`] = value;
+    }
+    console.log(ExportedObject)
+
+    var text = new Blob([JSON.stringify(ExportedObject)], {type : 'application/json'});
+    const a = document.createElement("a")
+    const url = window.URL.createObjectURL(text)
+    console.log(url)
+    a.href = url;
+    a.download = "test.json";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  });
 });
