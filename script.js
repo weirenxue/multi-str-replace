@@ -121,14 +121,17 @@ $(function(){
         for(let i = 0; i < len; i++){
           let key = key_value[i][`key-${i}`];
           let value = key_value[i][`value-${i}`];
-          console.log(key, value)
+          //console.log(key, value)
           let html = `<tr> \
                         <td>${i}</td> \
-                        <td><input name="key-${i}" value="${key}"></td> \
-                        <td><input name="value-${i}" value="${value}"></td> \
+                        <td><input name="key-${i}"></td> \
+                        <td><input name="value-${i}"></td> \
                         <td><button type="button" class="remove btn btn-primary">移除欄位</button></td>
                       </tr>`;
-          $("tbody").append(html);
+		  $html = $(html) 
+		  $($html.children()[1].children).val(key);
+		  $($html.children()[2].children).val(value);
+          $("tbody").append($html);
         }
         //註冊所有"移除欄位"按鈕事件
         removeButtonClickEvent()
