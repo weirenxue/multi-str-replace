@@ -40,7 +40,7 @@ $(function(){
     for(var i = 0; i <= lastNubmer; i++){
       key = $(`input[name=key-${i}]`).val();
       value = $(`input[name=value-${i}]`).val();
-      re = new RegExp(key, "g");
+      re = new RegExp(key, "gm");
       targetStr = targetStr.replace(re, value);
     }
     $("textarea[name=content]").val(targetStr)
